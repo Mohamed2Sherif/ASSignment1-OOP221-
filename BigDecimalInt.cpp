@@ -89,6 +89,7 @@ BigDecimalInt BigDecimalInt:: operator+ (BigDecimalInt anotherDec){
     }
     else if(dec_sign == '-'){
         result.dec_int =subtract(get_dec(),anotherDec.get_dec()) ;
+        reverse(result.dec_int.begin(), result.dec_int.end());
         if(dec_int.length()<anotherDec.dec_int.length())
             result.dec_sign = '+' ;
         else if(dec_int.length()>anotherDec.dec_int.length())
@@ -104,12 +105,13 @@ BigDecimalInt BigDecimalInt:: operator+ (BigDecimalInt anotherDec){
     }
     else{
         result.dec_int =  subtract(anotherDec.get_dec(),get_dec()) ;
+        reverse(result.dec_int.begin(), result.dec_int.end());
         if(dec_int.length()>anotherDec.dec_int.length())
             result.dec_sign = '+' ;
         else if(dec_int.length()<anotherDec.dec_int.length())
             result.dec_sign = '-' ;
         else{
-            if(anotherDec.dec_int[0]<dec_int[0]) {
+            if(anotherDec.dec_int<dec_int) {
                 result.dec_sign = '+' ;
             }
             else{
@@ -117,7 +119,9 @@ BigDecimalInt BigDecimalInt:: operator+ (BigDecimalInt anotherDec){
             }
         }
     }
-
+    while(result.dec_int[0]=='0' && result.dec_int.length()>1){
+        result.dec_int.erase(result.dec_int.begin()) ;
+    }
     result.dec_int.pop_back();
     return result ;
 }
@@ -126,57 +130,109 @@ string subtract(string num1, string num2){
         static int carry = 0 ;
         int temp ;
         string res = "0" ;
+        int length, diff=0 ;
+        bool check_bigger ;
 
         if(num1.length()==num2.length())
         {
-            if(num2>num1) {
+            if(num2.compare(num1)>0) {
                 for(int i=0;i<num1.length();i++){
-                    if(num2[num2.length()-i-1]>=num1[num1.length()-i-1]){
                         temp = (num2[num2.length()-i-1]-'0') - (num1[num1.length()-i-1]-'0')- carry ;
+                        if(temp<0){
+                            temp+= 10 ;
+                            carry = 1 ;
+                        }
+                        else{
+                            carry = 0 ;
+                        }
                         res += to_string(temp) ;
                         carry = 0 ;
-                    }
-                    else{
-                        temp = (num2[num2.length()-i-1]-'0')+10 -(num1[num1.length()-i-1])- carry ;
-                        carry = 1 ;
-                        res += to_string(temp) ;
-                    }
                 }
             }
             else {
                 swap(num1,num2) ;
                 for(int i=0;i<num1.length();i++){
-                    if(num2[num2.length()-i-1]>num1[num1.length()-i-1]){
+
                         temp = (num2[num2.length()-i-1]-'0') - (num1[num1.length()-i-1]-'0')- carry ;
+                        if(temp<0){
+                            temp += 10 ;
+                            carry = 1 ;
+                        }
+                        else{
+                            carry = 0 ;
+                        }
                         res += to_string(temp) ;
                         carry = 0 ;
-                    }
-                    else{
-                        temp = (num2[num2.length()-i-1]-'0')+10 -(num1[num1.length()-i-1])- carry ;
-                        carry = 1 ;
-                        res += to_string(temp) ;
-                    }
                 }
             }
         }
         else {
-            if(num1.length()> num1.length()){
-                swap(num1,num2) ;
-            }
-            for (int i = 0; i < num1.length(); i++) {
-                if (num2[num2.length() - i - 1] >= num1[num1.length() - i - 1]) {
-                    temp = (num2[num2.length() - i - 1] - '0') - (num1[num1.length() - i - 1] - '0') - carry;
-                    res += to_string(temp);
-                    carry = 0;
-                } else {
-                    temp = (num2[num2.length() - i - 1] - '0') + 10 - (num1[num1.length() - i - 1]) - carry;
-                    carry = 1;
+
+            if (num1.length() > num2.length()) {
+                length = num2.length();
+                diff = num1.length() - length;
+                check_bigger = true;
+                for (int i = 0; i < num2.length(); i++) {
+
+                    temp = (num1[num1.length() - i - 1] - '0') - (num2[num2.length() - i - 1] - '0') - carry;
+                    if (temp < 0) {
+                        temp += 10;
+                        carry = 1;
+                    } else {
+                        carry = 0;
+                    }
                     res += to_string(temp);
                 }
+
             }
+            else {
+                length = num1.length();
+                diff = num2.length() - length;
+                check_bigger = false;
+
+            for (int i = 0; i < num1.length(); i++) {
+
+                temp = (num2[num2.length() - i - 1] - '0') - (num1[num1.length() - i - 1] - '0') - carry;
+                if (temp < 0) {
+                    temp += 10;
+                    carry = 1;
+                } else {
+                    carry = 0;
+                }
+                res += to_string(temp);
+            }
+            }
+            if (check_bigger) {
+                for (int i = diff - 1; i >= 0; i--) {
+                    if(carry){
+                        int num = (num1[i]-'0') - carry ;
+                        if(num<0)
+                            carry = 1 ;
+                        else
+                            carry = 0 ;
+                        res += to_string(num) ;
+                    }
+                    else
+                        res += num1[i] ;
+                }
+            }
+            else
+                for (int i = diff - 1; i >= 0; i--) {
+                    if(carry){
+                        int num = (num2[i]-'0') - carry ;
+                        if(num<0)
+                            carry = 1 ;
+                        else
+                            carry = 0 ;
+                        res += to_string(num) ;
+                    }
+                    else
+                        res += num2[i] ;
+                }
+            if(carry) {
+                res += to_string(carry) ;
+            }
+
         }
-
-
-
     return res ;
 }
