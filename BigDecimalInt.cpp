@@ -86,6 +86,7 @@ BigDecimalInt BigDecimalInt:: operator+ (BigDecimalInt anotherDec){
         if(carry) {
             result.dec_int = to_string(carry) + result.dec_int;
         }
+        result.dec_int.pop_back() ;
     }
     else if(dec_sign == '-'){
         result.dec_int =subtract(get_dec(),anotherDec.get_dec()) ;
@@ -98,8 +99,11 @@ BigDecimalInt BigDecimalInt:: operator+ (BigDecimalInt anotherDec){
             if(anotherDec.dec_int>dec_int) {
               result.dec_sign = '+' ;
             }
-            else{
+            else if(anotherDec.dec_int<dec_int){
               result.dec_sign = '-' ;
+            }
+            else{
+                result.dec_sign = ' ' ;
             }
         }
     }
@@ -114,15 +118,17 @@ BigDecimalInt BigDecimalInt:: operator+ (BigDecimalInt anotherDec){
             if(anotherDec.dec_int<dec_int) {
                 result.dec_sign = '+' ;
             }
-            else{
+            else if(anotherDec.dec_int > dec_int){
                 result.dec_sign = '-' ;
+            }
+            else{
+                result.dec_sign = ' ' ;
             }
         }
     }
     while(result.dec_int[0]=='0' && result.dec_int.length()>1){
         result.dec_int.erase(result.dec_int.begin()) ;
     }
-    result.dec_int.pop_back();
     return result ;
 }
 //num2 - num1
@@ -148,6 +154,9 @@ string subtract(string num1, string num2){
                         res += to_string(temp) ;
                         carry = 0 ;
                 }
+            }
+            else if(num2.compare(num1)==0){
+                res += "0" ;
             }
             else {
                 swap(num1,num2) ;
