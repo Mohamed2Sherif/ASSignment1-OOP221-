@@ -19,6 +19,12 @@ class BigDecimalInt{
        void set_dec(string decimal){
            dec_int = decimal ;
        }
+       void set_sign(char sign){
+           dec_sign = sign ;
+       }
+       char get_sign(){
+           return dec_sign ;
+       }
        BigDecimalInt operator- (BigDecimalInt anotherDec);
        bool operator< (BigDecimalInt anotherDec);
        bool operator> (BigDecimalInt anotherDec);
@@ -34,4 +40,5 @@ class BigDecimalInt{
        int size();
        int sign();
 };
+string subtract(string num1, string num2);
 #endif //OOP_ASSIGNMENT1_BIGDECIMALINT_H
