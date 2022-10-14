@@ -1,4 +1,5 @@
 #include"BigDecimalInt.h"
+
 BigDecimalInt::BigDecimalInt(string decStr) {
 
     regex valid("[+-]*[0-9]+") ;
@@ -17,6 +18,8 @@ BigDecimalInt::BigDecimalInt(string decStr) {
         cout<<"invalid input\n" ;
     }
 }
+
+
 BigDecimalInt::BigDecimalInt (int decInt ){
     string temp = to_string(decInt) ;
     if(isdigit(temp[0]))
@@ -26,6 +29,8 @@ BigDecimalInt::BigDecimalInt (int decInt ){
         dec_sign = temp[0] ;
     }
 }
+
+
 BigDecimalInt BigDecimalInt:: operator+ (BigDecimalInt anotherDec){
     int length, diff=0 ;
     bool check_bigger ;
@@ -131,6 +136,8 @@ BigDecimalInt BigDecimalInt:: operator+ (BigDecimalInt anotherDec){
     }
     return result ;
 }
+
+
 //num2 - num1
 string subtract(string num1, string num2){
         static int carry = 0 ;
@@ -244,4 +251,59 @@ string subtract(string num1, string num2){
 
         }
     return res ;
+}
+
+
+//number setter
+void BigDecimalInt::set_dec(string decimal){
+    dec_int = decimal ;
+}
+
+//sign setter
+void BigDecimalInt::set_sign(char sign){
+    dec_sign = sign ;
+}
+
+// number getter
+string BigDecimalInt::get_dec(){
+    return dec_int ;
+}
+
+//size getter
+int BigDecimalInt::size()const{
+    return this->dec_int.size();
+}
+
+//sign getter
+char BigDecimalInt::sign() const{
+    return dec_sign ;
+}
+
+//overload = operator
+BigDecimalInt& BigDecimalInt::operator = (const BigDecimalInt& anotherDec){
+    BigDecimalInt num("0") ;
+    dec_int = anotherDec.dec_int ;
+    dec_sign = anotherDec.dec_sign ;
+    num.dec_int= dec_int ;
+    num.dec_sign = dec_sign ;
+    return *this;
+}
+
+//overload << operator
+ostream& operator << (ostream& out, BigDecimalInt b){
+    out<<b.dec_sign<<b.dec_int;
+}
+
+//overload == operator
+bool BigDecimalInt::operator == (const BigDecimalInt& anotherDec){
+    return this->dec_int == anotherDec.dec_int;
+}
+
+//overload >operator
+bool BigDecimalInt::operator > (const BigDecimalInt& anotherDec) {
+    return this->dec_int > anotherDec.dec_int;
+}
+
+bool BigDecimalInt::operator < (const BigDecimalInt& anotherDec){
+    return this->dec_int < anotherDec.dec_int;
 }
