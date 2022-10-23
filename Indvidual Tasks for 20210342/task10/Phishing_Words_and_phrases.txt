@@ -1,0 +1,33 @@
+Invoice,2
+Missing Invoice,3
+RE:INVOICE,2
+New,1
+New Invoice,2 
+Message,1
+Required,1
+<Blank Subject>,3
+File,2
+Request,2
+Action,2
+Document,2
+Verification,2
+efax from ID,3
+eFax® message from,3 
+VM from,3
+VMAIL RECEIVED,3
+A vulnerability has been identified in.,3
+To perform verification click the link,3
+Here is the new invoice for this week’s activities,3
+Please click here to install the latest,3
+Your account has been locked for security reasons click here to unlock your account,3
+Urgent,2
+Verification required!,2
+Need urgent help!,3
+Suspicious Outlook activity,3
+Important! Your password is about to expire,3
+Action required…,3
+Slots!,2
+Get 100% sale on,3
+Remove any ransomware with this app!,3
+check your device from virsus now!,3
+the best antivirus get it now!,3
